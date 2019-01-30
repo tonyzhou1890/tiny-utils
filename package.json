@@ -1,0 +1,22 @@
+{
+  "name": "tiny-utils",
+  "version": "1.0.0",
+  "description": "tony's utils collection: tiny utils",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonyzhou1890/tiny-utils.git"
+  },
+  "keywords": [
+    "tiny-utils"
+  ],
+  "author": "tony",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tonyzhou1890/tiny-utils/issues"
+  },
+  "homepage": "https://github.com/tonyzhou1890/tiny-utils#readme"
+}
