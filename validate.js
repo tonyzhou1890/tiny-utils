@@ -110,7 +110,7 @@ export function validateDate(str) {
 export function validateFloatZ(str) {
   const reg = /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/
   return reg.test(str)
-}
+} 
 
 /* 1-无穷大正整数验证 */
 export function validateNumberZ(str) {

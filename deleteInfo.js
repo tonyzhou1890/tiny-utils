@@ -9,7 +9,7 @@ export function deleteInfo(self, itemName, uuid, callback) {
   return new Promise((resolve, reject) => {
     const h = self.$createElement
     self.$msgbox({
-      title: '消息',
+      title: '消息', 
       message: h('p', null, [
         h('span', null, '确定删除 ' + itemName + ' 吗？')
       ]),
