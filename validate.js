@@ -1,11 +1,6 @@
 /**
- * Created by jiachenpan on 16/11/18.
+ * 验证方法，部分方法来自vue-element-admin框架
  */
-
-export function isvalidUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
-}
 
 /* 合法uri*/
 export function validateURL(textval) {
@@ -116,4 +111,28 @@ export function validateFloatZ(str) {
 export function validateNumberZ(str) {
   const reg = /^[0-9]*[1-9][0-9]*$/
   return reg.test(str)
+}
+
+/**
+ * 全部导出
+ */
+export default {
+  validateURL,
+  validateLowerCase,
+  validateUpperCase,
+  validateAlphabets,
+  validateEmail,
+  validateMobile,
+  validateNegativeIntegerNonzero,
+  validateNegativeIntegerNonzero,
+  validatePositiveInteger,
+  validateNegativeInteger,
+  validatePwd,
+  validateNotEmpty,
+  validatePhone,
+  validateLongitude,
+  validateLatitude,
+  validateDate,
+  validateFloatZ,
+  validateNumberZ
 }

@@ -1,4 +1,4 @@
-import { isObject, isArray } from './judgeTypeOfData'
+import { isObject, isArray } from './base'
 
 /**
  * 对对象/数组进行过滤，提取需要的属性
@@ -111,4 +111,9 @@ export function transferProperties(source, transferProperties) {
     })
     return res
   }
+}
+
+export default {
+  filterProperties,
+  transferProperties
 }

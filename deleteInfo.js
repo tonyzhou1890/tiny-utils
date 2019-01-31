@@ -1,4 +1,7 @@
 /**
+ * 对于element ui弹窗的封装，用于删除信息的操作提示
+ */
+/**
  * 删除信息
  * @param self: 上下文
  * @param itemName: 待删除信息名称
@@ -44,4 +47,11 @@ export function deleteInfo(self, itemName, uuid, callback) {
       reject(action)
     })
   })
+}
+
+/**
+ * 导出全部
+ */
+export default {
+  deleteInfo
 }

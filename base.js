@@ -13,3 +13,11 @@ export function isObject(data) {
 export function isArray(data) {
   return Object.prototype.toString.call(data) === '[object Array]'
 }
+
+/**
+ * 导出全部
+ */
+export default {
+  isObject,
+  isArray
+}

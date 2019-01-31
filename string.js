@@ -1,4 +1,7 @@
 /**
+ * 字符串相关方法
+ */
+/**
  * 删除字符串两边的空格(简单情况)
  * @param {*} data
  */
@@ -19,4 +22,12 @@ export function deleteSpace(data) {
 export function deleteStrSpace(str) {
   if (!(typeof str === 'string')) return str
   return str.trim()
+}
+
+/**
+ * 导出全部
+ */
+export default {
+  deleteSpace,
+  deleteStrSpace
 }
