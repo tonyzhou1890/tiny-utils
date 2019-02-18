@@ -1,4 +1,4 @@
-import { isObject, isArray } from './base'
+import { isObject, isArray, isFunction } from './base'
 
 /**
  * 对对象/数组进行过滤，提取需要的属性
@@ -8,8 +8,12 @@ import { isObject, isArray } from './base'
 export function filterProperties(source, reserveProperties) {
   let dest = null
   // 类型检查
-  if (!isArray(source) && !isObject(source)) return { msg: '第一个参数不是对象或数组' }
-  if (!isArray(reserveProperties)) return { msg: '第二个参数不是数组' }
+  if (!isArray(source) && !isObject(source)) {
+    throw new Error('第一个参数不是对象或数组')
+  }
+  if (!isArray(reserveProperties)) {
+    throw new Error('第二个参数不是数组')
+  }
   // 开始过滤
   dest = filter(source, reserveProperties)
   return dest
@@ -45,13 +49,17 @@ export function filterProperties(source, reserveProperties) {
 /**
  * 属性名转换
  * @param {*} source // 【对象/数组】源对象/数组
- * @param {*} transferProperties // 【数组】需要转换的属性，未在其中的属性默认保留。合并策略：如果两个目的属性名相同并且都是数组或对象，则合并，否则直接覆盖
+ * @param {*} transferProperties // 【数组】需要转换的属性，未在其中的属性默认保留。合并策略：如果两个目的属性名相同并且都是数组或对象，则合并，否则直接覆盖。如果为转换值指定了转换函数，则调用函数，否则返回原值。
  */
 export function transferProperties(source, transferProperties) {
   let dest = null
   // 类型检查
-  if (!isArray(source) && !isObject(source)) return { msg: '第一个参数不是对象或数组' }
-  if (!isArray(transferProperties)) return { msg: '第二个参数不是数组' }
+  if (!isArray(source) && !isObject(source)) {
+    throw new Error('第一个参数不是对象或数组')
+  }
+  if (!isArray(transferProperties)) {
+    throw new Error('第二个参数不是数组')
+  }
   // 开始转换
   dest = transfer(source, transferProperties)
   return dest
@@ -74,6 +82,10 @@ export function transferProperties(source, transferProperties) {
       Object.keys(source).map(key => {
         // 检查是否需要转换
         const newKey = inProp(key, transferProperties)
+        // 如果需要转换并且有转换函数，则调用
+        if (newKey && newKey.func) {
+          source[key] = newKey.func(source[key])
+        }
         // 如果属性是数组或对象，继续遍历
         if (isArray(source[key]) || isObject(source[key])) {
           if (newKey) {
@@ -105,7 +117,8 @@ export function transferProperties(source, transferProperties) {
       if (item[0] === key) {
         res = {
           old: key,
-          new: item[1]
+          new: item[1],
+          func: isFunction(item[2]) ? item[2] : null
         }
       }
     })
@@ -113,6 +126,9 @@ export function transferProperties(source, transferProperties) {
   }
 }
 
+/**
+ * 导出全部
+ */
 export default {
   filterProperties,
   transferProperties

@@ -1,10 +1,10 @@
 /**
- * 验证方法，部分方法来自vue-element-admin框架
+ * 验证方法，部分方法来自vue-element-admin框架，部分前同事 @曹可凡 所写，部分自己所写
  */
 
 /* 合法uri*/
 export function validateURL(textval) {
-  const urlregex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+  const urlregex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|top|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
   return urlregex.test(textval)
 }
 
@@ -117,22 +117,22 @@ export function validateNumberZ(str) {
  * 全部导出
  */
 export default {
-  validateURL,
-  validateLowerCase,
-  validateUpperCase,
-  validateAlphabets,
-  validateEmail,
-  validateMobile,
-  validateNegativeIntegerNonzero,
-  validateNegativeIntegerNonzero,
-  validatePositiveInteger,
-  validateNegativeInteger,
-  validatePwd,
-  validateNotEmpty,
-  validatePhone,
-  validateLongitude,
-  validateLatitude,
-  validateDate,
-  validateFloatZ,
-  validateNumberZ
+  URL: validateURL,
+  lowerCase: validateLowerCase,
+  upperCase: validateUpperCase,
+  alphabets: validateAlphabets,
+  email: validateEmail,
+  mobile: validateMobile,
+  negativeIntegerNonzero: validateNegativeIntegerNonzero,
+  negativeIntegerNonzero: validateNegativeInteger,
+  positiveInteger: validatePositiveInteger,
+  negativeInteger: validateNegativeInteger,
+  pwd: validatePwd,
+  notEmpty: validateNotEmpty,
+  phone: validatePhone,
+  longitude: validateLongitude,
+  latitude: validateLatitude,
+  date: validateDate,
+  floatZ: validateFloatZ,
+  numberZ: validateNumberZ
 }

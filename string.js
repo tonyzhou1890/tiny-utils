@@ -1,16 +1,19 @@
+import {isString, isObject, isArray} from './base'
 /**
  * 字符串相关方法
  */
 /**
- * 删除字符串两边的空格(简单情况)
+ * 删除对象或数组字符串项两边的空格
  * @param {*} data
  */
 export function deleteSpace(data) {
-  if (!(data instanceof Object)) return data
+  if (!isObject(data) && !isArray(data)) {
+    return data
+  }
   const keys = Object.keys(data)
   keys.map(key => {
-    if ((typeof data[key]) === 'string') data[key] = data[key].trim()
-    if (data[key] instanceof Object) data[key] = deleteSpace(data[key])
+    if (isString(data[key])) data[key] = data[key].trim()
+    if (isObject(data) || isArray(data)) data[key] = deleteSpace(data[key])
   })
   return data
 }
@@ -20,7 +23,7 @@ export function deleteSpace(data) {
  * @param {*} str
  */
 export function deleteStrSpace(str) {
-  if (!(typeof str === 'string')) return str
+  if (!isString(str)) return str
   return str.trim()
 }
 

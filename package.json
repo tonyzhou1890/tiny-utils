@@ -4,7 +4,8 @@
   "description": "tony's utils collection: tiny utils",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,17 @@
   "bugs": {
     "url": "https://github.com/tonyzhou1890/tiny-utils/issues"
   },
-  "homepage": "https://github.com/tonyzhou1890/tiny-utils#readme"
+  "homepage": "https://github.com/tonyzhou1890/tiny-utils#readme",
+  "dependencies": {
+    "cross-env": "^5.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "open-browser-webpack-plugin": "0.0.5",
+    "webpack": "^4.29.4",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "devDependencies": {
+    "html-loader": "^0.5.5",
+    "markdown-loader": "^5.0.0"
+  }
 }
