@@ -32,7 +32,7 @@ export function filterProperties(source, reserveProperties) {
         }
       })
     } else if (isObject(source)) { // 源是否为对象
-      dest = Object.create(null)
+      dest = {}
       reserveProperties.map(prop => {
         // 如果属性是数组或对象，继续遍历
         if (isArray(source[prop]) || isObject(source[prop])) {
@@ -78,7 +78,7 @@ export function transferProperties(source, transferProperties) {
         }
       })
     } else if (isObject(source)) { // 源是否为对象
-      dest = Object.create(null)
+      dest = {}
       Object.keys(source).map(key => {
         // 检查是否需要转换
         const newKey = inProp(key, transferProperties)
