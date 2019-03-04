@@ -1,9 +1,14 @@
 # tiny-utils
 
-> tony's utils collection: tiny utils <br>
+> tony's utils collection: tiny-utils.js <br>
 > version: 1.0.3
 
 &emsp;&emsp;为了以后编程的方便，觉得有必要创建一个工具库，将一些写过（或者看到）的工具收藏起来。对于借鉴过来的方法，具体文件里将有说明。
+
+## 安装
+```
+npm install tiny-utils.js -s
+```
 
 ## 计划
 - [x] base 部分——类型判定
@@ -326,9 +331,9 @@ Vue.directive('tuLoading', loading)
 ### v1.0.1--2019.02.18
 1. 整理项目。
 
-### v1.0.2
+### v1.0.2--2019.03.01
 1. 将所有的 Obeject.create(null) 改成对象字面量 {}，解决创建出来的对象没有原型的问题。
 
-### v2.0.3
+### v1.0.3
 1. 添加时间格式化方法，将‘2019-01-01 11:11:11’这种格式转成 date 对象。
 2. 添加 v-tu-loading 指令。
