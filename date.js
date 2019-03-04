@@ -1,3 +1,5 @@
+import { isString, isUndefined } from './base'
+
 /**
  * Created by jiachenpan on 16/11/18.
  * 时间转换
@@ -38,8 +40,24 @@ export function parseTime(time, cFormat) {
 }
 
 /**
+ * 将时间字符串转为 date 对象。参数需要是"2019-01-01 01:01:01"格式的字符串。如果参数是空字符串，则返回值也是空字符串。
+ * @param {*} time 
+ */
+export function initDate(time) {
+  if (!isString(time) || isUndefined(time)) {
+    throw new Error('参数需要是字符串')
+  }
+  if (time === '') {
+    return ''
+  }
+  time = time.replace(/-/g, '/')
+  return new Date(time)
+}
+
+/**
  * 导出全部
  */
 export default {
-  parseTime
+  parseTime,
+  initDate
 }
