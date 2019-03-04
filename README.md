@@ -1,7 +1,7 @@
 # tiny-utils
 
 > tony's utils collection: tiny utils <br>
-> version: 1.0.1
+> version: 1.0.3
 
 &emsp;&emsp;为了以后编程的方便，觉得有必要创建一个工具库，将一些写过（或者看到）的工具收藏起来。对于借鉴过来的方法，具体文件里将有说明。
 
@@ -15,6 +15,7 @@
 - [x] validate 部分——验证方法
 - [x] tree 部分——树方法
 - [x] UI 部分——第三方库ui增强或自实现ui组件
+- [x] directive 部分——vue指令
 
 ## 列表
 
@@ -297,6 +298,27 @@
 
     callback：请求函数
 
+### directive
+> 指令需要单独引入。
+> - 一次引入全部指令：
+```
+import directives from 'tiny-utils.js/directive'
+Object.keys(directives).map(item => {
+  Vue.directive(item, directives[item])
+})
+```
+> 这种情况，指令名称格式类似这种：v-tu-loading。
+> - 单独引入某条指令
+```
+import loading from 'tiny-utils.js/directives/loading'
+Vue.directive('tuLoading', loading)
+```
+
+1. v-tu-loading
+
+    加载动画指令。默认白色背景，紫色加载圆圈。可自定义样式覆盖。外层样式名是‘.tu-loading’，内部圆圈样式名是‘.tu-loading-round’。
+
+
 ## 更新日志
 ### v1.0.0--2019.01.31
 1. 创建项目，发布包。
@@ -308,4 +330,5 @@
 1. 将所有的 Obeject.create(null) 改成对象字面量 {}，解决创建出来的对象没有原型的问题。
 
 ### v2.0.3
-1. 添加时间格式化方法，将‘2019-01-01 11:11:11’这种格式转成 date 对象
+1. 添加时间格式化方法，将‘2019-01-01 11:11:11’这种格式转成 date 对象。
+2. 添加 v-tu-loading 指令。
