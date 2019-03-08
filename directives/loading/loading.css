@@ -16,6 +16,7 @@
   z-index: 100;
   background-color: rgba(255, 255, 255, 0.95);
   overflow: hidden;
+  text-align: center;
 }
 
 .tu-loading .tu-loading-round {
@@ -31,4 +32,14 @@
   left: 0;
   right: 0;
   margin: auto;
+}
+
+.tu-loading .tu-loading-text {
+  margin: 0;
+  padding: 10px;
+  font-size: 16px;
+  height: 36px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }

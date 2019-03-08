@@ -269,17 +269,30 @@ export function deleteEmptyChildNode(tree, childNodeName) {
 /**
  * 获取树中最后一级的节点
  * @param {*} tree // 树
+ * @param {*} childNodeName // 子节点名称，可选，，默认 ‘children’
+ * @param {*} key // 筛选键名，可选
+ * @param {*} value // 筛选键值，可选
  */
-export function getLastLevel(tree) {
+export function getLastLevel(tree, childNodeName, key, value) {
   if (!isArray(tree)) {
     throw new Error('树数据不是数组')
   }
   let res = []
-  for (let i = 0, len = tree.length; i < len; i++) {
-    if (tree[i].children) {
-      res = res.concat(getLastLevel(tree[i].children))
+  // 确定子节点名称
+  let children = childNodeName || 'children'
+  for (let i = 0, len = data.length; i < len; i++) {
+    if (data[i][children]) {
+      res = res.concat(getLastLevel(data[i][children], key, value))
     } else {
-      res.push(tree[i])
+      // 键值过滤
+      if (key !== undefined && value !== undefined) {
+        if (data[i][key] === value) {
+          res.push(data[i])
+        }
+      } else {
+        // 不过滤
+        res.push(data[i])
+      }
     }
   }
   return Array.from(new Set(res))

@@ -15,11 +15,11 @@ npm install tiny-utils.js -s
 - [x] string 部分——字符串方法
 - [x] array 部分——数组方法
 - [x] object 部分——对象方法
-- [ ] functions 部分——函数工具
+- [x] functions 部分——函数工具
 - [x] date 部分——日期方法
 - [x] validate 部分——验证方法
 - [x] tree 部分——树方法
-- [x] UI 部分——第三方库ui增强或自实现ui组件
+- [ ] UI 部分——第三方库ui增强或自实现ui组件
 - [x] directive 部分——vue指令
 
 ## 列表
@@ -95,6 +95,18 @@ npm install tiny-utils.js -s
     对对象/数组进行转换，替换字段名。
 
 ### functions
+
+1. deleteInfo(self, itemName, uuid, callback)
+
+    element ui 增强--删除信息确认框
+
+    self: 上下文
+
+    itemName: 待删除信息名称，用来显示在弹出框中
+
+    uuid: 待删除信息uuid
+
+    callback：请求函数
 
 ### date
 
@@ -283,25 +295,19 @@ npm install tiny-utils.js -s
 
     childNodeName: 子节点名称
 
-11. getLastLevel(tree)
+11. getLastLevel(tree, childNodeName, key, value)
 
     获取树中最后一级的节点
 
     tree: 树数据
 
+    childNodeName: 子节点名称，可选，默认 ‘children’
+
+    key: 筛选键名，可选
+
+    value: 筛选键值，可选
+
 ### UI
-
-1. deleteInfo(self, itemName, uuid, callback)
-
-    element ui 增强--删除信息确认框
-
-    self: 上下文
-
-    itemName: 待删除信息名称
-
-    uuid: 待删除信息uuid
-
-    callback：请求函数
 
 ### directive
 > 指令需要单独引入。
@@ -321,7 +327,9 @@ Vue.directive('tuLoading', loading)
 
 1. v-tu-loading
 
-    加载动画指令。默认白色背景，紫色加载圆圈。可自定义样式覆盖。外层样式名是‘.tu-loading’，内部圆圈样式名是‘.tu-loading-round’。
+    加载动画指令。默认白色背景，紫色加载圆圈。可自定义样式覆盖。外层样式名是‘.tu-loading’，内部圆圈样式名是‘.tu-loading-round’，加载文字样式名是‘.tu-loading-text’。
+
+    tu-loading-text: 在元素上设置此属性，则显示加载文字，而不是圆圈。比如：tu-loading-text="Loading……".
 
 
 ## 更新日志
@@ -335,5 +343,7 @@ Vue.directive('tuLoading', loading)
 1. 将所有的 Obeject.create(null) 改成对象字面量 {}，解决创建出来的对象没有原型的问题。
 
 ### v1.0.3
-1. 添加时间格式化方法，将‘2019-01-01 11:11:11’这种格式转成 date 对象。
+1. 添加时间格式化方法，将 ‘2019-01-01 11:11:11’ 这种格式转成 date 对象。
 2. 添加 v-tu-loading 指令。
+3. 增强 tree 模块下的 getLastLevel 函数。
+4. 将 UI 模块下的 deleteInfo 函数归类到 functions 模块下。
