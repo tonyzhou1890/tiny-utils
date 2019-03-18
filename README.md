@@ -341,6 +341,16 @@ Vue.directive('tuLoading', loading)
 
     tu-loading-text: 在元素上设置此属性，则显示加载文字，而不是圆圈。比如：tu-loading-text="Loading……".
 
+2. v-tu-waves
+
+    点击波纹指令。默认透明黑色。波纹样式名是‘.tu-waves-ripple’, 波纹动画样式名是‘.z-active’--实际是‘.tu-waves-ripple.z-active’。
+
+    指令的值是个对象，内容为配置项：
+
+        el: 波纹作用元素
+        type: 扩散类型，'hit': 点击处扩散，'center': 中心扩散
+        color: 波纹颜色
+
 
 ## 更新日志
 ### v1.0.0--2019.01.31
@@ -364,3 +374,7 @@ Vue.directive('tuLoading', loading)
 ### v1.0.5--2019.03.18
 1. 将开发依赖的包移到 devDependencies 下面（之前装错地方了）。
 2. 添加 babel 转译说明。
+
+### v1.0.6
+1. 样式用 scss 书写，并统一在 theme 文件夹下面管理。
+2. 添加 waves 指令。（指令来自于 vue-element-admin）

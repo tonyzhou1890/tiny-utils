@@ -1,3 +1,4 @@
+@import './variables.scss';
 @keyframes tu-loading-rotate {
   from {
     transform: rotate(0deg);
@@ -35,6 +36,7 @@
 }
 
 .tu-loading .tu-loading-text {
+  color: $tu-primary-text;
   margin: 0;
   padding: 10px;
   font-size: 16px;

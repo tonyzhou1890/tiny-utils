@@ -1,4 +1,4 @@
-import './loading.css'
+import '../../theme/default/loading.scss'
 
 export default {
 	bind: (el, binding) => {
