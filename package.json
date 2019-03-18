@@ -1,6 +1,6 @@
 {
   "name": "tiny-utils.js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "tony's utils collection: tiny utils",
   "main": "index.js",
   "scripts": {
@@ -21,8 +21,7 @@
     "url": "https://github.com/tonyzhou1890/tiny-utils/issues"
   },
   "homepage": "https://github.com/tonyzhou1890/tiny-utils#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "cross-env": "^5.2.0",
     "html-loader": "^0.5.5",
