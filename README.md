@@ -1,13 +1,23 @@
 # tiny-utils
 
 > tony's utils collection: tiny-utils.js <br>
-> version: 1.0.3
+> version: 1.0.5
 
 &emsp;&emsp;为了以后编程的方便，觉得有必要创建一个工具库，将一些写过（或者看到）的工具收藏起来。对于借鉴过来的方法，具体文件里将有说明。
 
 ## 安装
 ```
 npm install tiny-utils.js -s
+```
+
+## 配置
+&emsp;&emsp;tiny-utils.js 并没有预先编译，这在低版本浏览器（比如 ie 全家）中会有兼容问题。为了解决兼容问题，需要用 babel 转译。找到 webpack 配置文件，进行如下修改：
+```
+{
+    test: /\.js$/,
+    loader: 'babel-loader',
+    include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client'), resolve('node_modules/tiny-utils.js/')]
+},
 ```
 
 ## 计划
@@ -350,3 +360,7 @@ Vue.directive('tuLoading', loading)
 
 ### v1.0.4--2019.03.18
 1. 修复bug：validate.js 内方法命名重复，ie 严格模式报错。
+
+### v1.0.5--2019.03.18
+1. 将开发依赖的包移到 devDependencies 下面（之前装错地方了）。
+2. 添加 babel 转译说明。
