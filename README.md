@@ -342,8 +342,11 @@ Vue.directive('tuLoading', loading)
 ### v1.0.2--2019.03.01
 1. 将所有的 Obeject.create(null) 改成对象字面量 {}，解决创建出来的对象没有原型的问题。
 
-### v1.0.3
+### v1.0.3--2019.03.08
 1. 添加时间格式化方法，将 ‘2019-01-01 11:11:11’ 这种格式转成 date 对象。
 2. 添加 v-tu-loading 指令。
 3. 增强 tree 模块下的 getLastLevel 函数。
 4. 将 UI 模块下的 deleteInfo 函数归类到 functions 模块下。
+
+### v1.0.4--2019.03.18
+1. 修复bug：validate.js 内方法命名重复，ie 严格模式报错。

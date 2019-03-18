@@ -124,7 +124,6 @@ export default {
   email: validateEmail,
   mobile: validateMobile,
   negativeIntegerNonzero: validateNegativeIntegerNonzero,
-  negativeIntegerNonzero: validateNegativeInteger,
   positiveInteger: validatePositiveInteger,
   negativeInteger: validateNegativeInteger,
   pwd: validatePwd,
