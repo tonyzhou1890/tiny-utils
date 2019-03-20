@@ -318,6 +318,20 @@ npm install tiny-utils.js -s
     value: 筛选键值，可选
 
 ### UI
+> 组件需要单独引入
+> - 一次性引入全部组件：
+```
+import ui from 'tiny-utils.js/UI'
+Object.keys(ui).map(item => {
+  Vue.component(item, ui[item])
+})
+```
+> 这种情况，组件标签格式类似这种：`<tu-svg-icon />`
+> - 单独引入某个组件
+```
+import SvgIcon from 'tiny-utils.js/UI/SvgIcon'
+Vue.component('SvgIcon', SvgIcon)
+```
 
 ### directive
 > 指令需要单独引入。
@@ -378,3 +392,5 @@ Vue.directive('tuLoading', loading)
 ### v1.0.6
 1. 样式用 scss 书写，并统一在 theme 文件夹下面管理。
 2. 添加 waves 指令。（指令来自于 vue-element-admin）
+3. 添加 SvgIcon 组件。
+4. 文档放到 docs 下面。
