@@ -3,7 +3,7 @@
 > tony's utils collection: tiny-utils.js <br>
 > version: 1.0.5
 
-&emsp;&emsp;为了以后编程的方便，觉得有必要创建一个工具库，将一些写过（或者看到）的工具收藏起来。对于借鉴过来的方法，具体文件里将有说明。
+&emsp;&emsp;为了以后编程的方便，觉得有必要创建一个工具库，将一些写过（或者看到）的工具收藏起来。对于借鉴过来的方法，具体文件里将有说明。**指令和 UI 部分需要单独引入。详见文档。**
 
 ## 安装
 ```
@@ -19,6 +19,10 @@ npm install tiny-utils.js -s
     include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client'), resolve('node_modules/tiny-utils.js/')]
 },
 ```
+
+## 文档
+
+[tiny-utils.js 文档](./docs)
 
 ## 计划
 > 只代表有内容
@@ -58,6 +62,7 @@ npm install tiny-utils.js -s
 
 ### v1.0.6
 1. 样式用 scss 书写，并统一在 theme 文件夹下面管理。
-2. 添加 waves 指令。（指令来自于 vue-element-admin）
-3. 添加 SvgIcon 组件。
+2. 添加 v-tu-waves 指令。（指令来自于 vue-element-admin）
+3. 添加 SvgIcon 组件。（组件来自于 vue-element-admin）
 4. 文档放到 docs 下面。
+5. 添加 v-tu-bubble 指令。

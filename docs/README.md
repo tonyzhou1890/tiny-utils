@@ -339,6 +339,23 @@ tu-loading-text: 在元素上设置此属性，则显示加载文字，而不是
 
 指令的值是个对象，内容为配置项：
 
-    el: 波纹作用元素
-    type: 扩散类型，'hit': 点击处扩散，'center': 中心扩散
-    color: 波纹颜色
+|属性|值|说明|
+|-|-|-|
+|el|Object|波纹作用元素|
+|type|String|扩散类型，'hit': 点击处扩散，'center': 中心扩散|
+|color|String|波纹颜色，比如：'purple'|
+
+### 3. v-tu-bubble
+
+文字气泡指令（并不清楚应该叫什么，暂时先这样）。文字样式名是‘.tu-bubble’，动画时的样式是‘.tu-bubble-hidden’。
+
+指令的值是个对象，内容为配置项：
+
+|属性|值|说明|
+|-|-|-|
+|text|Array|文字数组，比如：['tiny', 'utils', 'js]|
+|color|Array|颜色数组，比如：['red', 'purple', 'blue']|
+|duration|Number|动画持续时间，单位是毫秒|
+|delay|Number|动画延迟时间，单位是毫秒|
+|distance|Number|动画时间内运动距离，单位是像素|
+|offset|Array|文字偏移位置，元素是数字，单位是像素。分别是 x 轴，y 轴。|

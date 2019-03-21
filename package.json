@@ -4,7 +4,7 @@
   "description": "tony's utils collection: tiny utils",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cp -rf ../tiny-utils.js ../tiny-utils.js-test/node_modules",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js"
   },
   "repository": {
