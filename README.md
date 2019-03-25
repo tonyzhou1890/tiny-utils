@@ -60,7 +60,7 @@ npm install tiny-utils.js -s
 1. 将开发依赖的包移到 devDependencies 下面（之前装错地方了）。
 2. 添加 babel 转译说明。
 
-### v1.0.6
+### v1.0.6--2019.03.25
 1. 样式用 scss 书写，并统一在 theme 文件夹下面管理。
 2. 添加 v-tu-waves 指令。（指令来自于 vue-element-admin）
 3. 添加 SvgIcon 组件。（组件来自于 vue-element-admin）
