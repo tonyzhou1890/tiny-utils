@@ -1,5 +1,4 @@
 import { isArray, isObject, isNumber } from '../../base'
-import '../../theme/default/bubble.scss'
 
 const clickEvent = (e) => {
   // 如果不支持某些特性，直接返回

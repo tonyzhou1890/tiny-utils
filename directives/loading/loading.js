@@ -1,5 +1,3 @@
-import '../../theme/default/loading.scss'
-
 export default {
 	bind: (el, binding) => {
 		const hasText = el.hasAttribute('tu-loading-text')

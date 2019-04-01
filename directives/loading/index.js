@@ -8,4 +8,5 @@
  *   .tu-loading-text 加载文字样式
  */
 import loading from './loading'
+import '../../theme/default/loading.scss'
 export default loading

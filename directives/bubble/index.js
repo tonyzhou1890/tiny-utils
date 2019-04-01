@@ -12,4 +12,5 @@
  *   .tu-bubble-hidden 隐藏动画样式
  */
 import bubble from './bubble'
+import '../../theme/default/bubble.scss'
 export default bubble

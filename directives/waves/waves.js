@@ -1,5 +1,3 @@
-import '../../theme/default/waves.scss'
-
 export default{
   bind(el, binding) {
     el.addEventListener('click', e => {

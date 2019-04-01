@@ -1,0 +1,26 @@
+.tu-book-container,
+.tu-book-cover,
+.tu-book-page,
+.tu-book-content,
+.tu-book-page-number,
+.tu-book-back-cover {
+  overflow: hidden;
+}
+
+.tu-book-cover,
+.tu-book-page,
+.tu-book-back-cover {
+  backface-visibility: hidden;
+}
+
+
+.tu-book-title,
+.tu-book-page-number,
+.tu-book-end-title {
+  text-align: center;
+  margin: 0;
+}
+
+.tu-book-text {
+  margin: 0;
+}

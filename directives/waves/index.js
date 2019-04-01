@@ -10,4 +10,5 @@
  *   .z-active 波纹动画样式
  */
 import waves from './waves'
+import '../../theme/default/waves.scss'
 export default waves
