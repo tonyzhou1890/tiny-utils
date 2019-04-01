@@ -1,5 +1,9 @@
 <template>
   <div
+    tabindex="-1"
+    @keypress.left="prev"
+    @keypress.right="next"
+    @mousewheel.prevent="mousewheel"
     :style="`'color: ${color}; background: ${background}'; width: ${width}px; height: ${height}px; position: relative;`"
     class="tu-book-container">
     <!-- book cover -->
@@ -21,7 +25,7 @@
         class="tu-book-content">
         <p
           ref="page"
-          :style="`position: absolute; top: ${top[item]}px; line-height: ${lineHeight}px;`"
+          :style="`position: absolute; top: ${top[item]}px; line-height: ${lineHeight}px; width: 100%;`"
           :class="`tu-book-text tu-book-text-${item}`">{{ text }}</p>
       </div>
       <p
@@ -115,9 +119,9 @@ export default {
     return {
       curPage: 0,
       totalPage: 1,
-      left: ['50%', '50%', '50%', '50%', '50%', '50%', '50%', '50%'], // cover, paper1-1, paper1-2, paper2-1, paper2-2, paper3-1, paper3-2, backCover
+      left: ['25%', '25%', '25%', '25%', '25%', '25%', '25%', '25%'], // cover, paper1-1, paper1-2, paper2-1, paper2-2, paper3-1, paper3-2, backCover
       top: [0, 0, 0, 0, 0, 0, 0, 0],
-      rotate: [false, false, true, false, true, false, true, true],
+      rotate: [false, false, true, false, true, false, true, false],
       pageNumber: [0, 0, 0, 0, 0, 0, 0, 0],
       showPageNumberArray: [true, true, true, true, true, true, true, true],
       zIndex: [8, 7, 6, 5, 4, 3, 2, 1]
@@ -135,6 +139,13 @@ export default {
       }
       if (this.single) {
         temp[3] = false
+      }
+      if (this.curPage >= 1) {
+        temp[0] = false
+      }
+      if (this.curPage > this.totalPage) {
+        temp.fill(false)
+        temp[7] = true
       }
       return temp
     },
@@ -190,7 +201,7 @@ export default {
         this.totalPage = Math.ceil(h / this.pageHeight)
         // 计算当前页
         let percent = null
-        if (isNumber(this.percent) && 0 <= this.percent && 100 >= this.percent) {
+        if (isNumber(this.percent) && 0 <= this.percent) {
           percent = this.percent
         } else {
           percent = 0
@@ -210,26 +221,104 @@ export default {
         let tempArr = []
         // 计算各页面页码
         tempArr = JSON.parse(JSON.stringify(this.pageNumber))
-        tempArr[1] = this.curPage // 如果单页，只要设置第一个页面就可以
+        tempArr[1] = this.curPage > this.totalPage ? this.totalPage % 2 === 1 ? this.totalPage : this.totalPage - 1 : this.curPage // 如果单页，只要设置第一个页面就可以
         if (!this.single) { // 如果双页，还需要设置第二张纸的第一页
-          tempArr[3] = this.curPage + 1 > totalPage ? totalPage : this.curPage + 1
+          tempArr[3] = tempArr[1] + 1 > this.totalPage ? this.totalPage : tempArr[1] + 1
         }
         this.pageNumber = tempArr
         // 计算各页面（纸张）位置
+        tempArr = JSON.parse(JSON.stringify(this.left))
         if (this.single) {  // 单页
-          this.left.fill('0')
-        } else if (this.curPage === 0 || this.curPage === this.totalPage) { // 双页，并且进度为0或100
-          this.left.fill('50%')
+          this.left = tempArr.fill('0')
+        } else if (this.curPage === 0 || this.curPage > this.totalPage) { // 双页，并且进度为0或100
+          this.left = tempArr.fill('25%')
         } else {  // 双页，并且进度不为0和100
-          this.left[0] = this.left[1] = '0'
-          this.left[3] = '50%'
+          tempArr[0] = tempArr[1] = '0'
+          tempArr[3] = '50%'
+          this.left = tempArr
         }
         // 计算各页面文字内容位置
-        this.top[1] = (this.pageNumber[1] - 1) * this.pageHeight  // 单页
-        if (!this.single) { // 双页
-          this.top[3] = (this.pageNumber[3] - 1) * this.pageHeight
-        }
+        this.computeTextTop()
       })
+    },
+    prev() {
+      if (this.curPage <= 0) {
+        return
+      }
+      let oldPageNumber = JSON.parse(JSON.stringify(this.pageNumber))
+      // 设定临时数组
+      let tempArr = []
+      // 设定页码
+      tempArr = JSON.parse(JSON.stringify(this.pageNumber))
+      if (this.single) {
+        tempArr[1] = tempArr[1] <= 1 ? 1 : tempArr[1] - 1
+      } else {
+        tempArr[1] = tempArr[1] <= 2 ? 1 : tempArr[1] - 2
+        tempArr[3] = tempArr[1] + 1
+      }
+      this.pageNumber = tempArr
+      // 设定当前页码
+      if (oldPageNumber[1] <= 1) {
+        this.curPage = 0
+      } else {
+        this.curPage = this.pageNumber[1]
+      }
+      // 计算各页面（纸张）位置
+      if (!this.single && this.curPage <= 0 && this.cover.length) {
+        this.left = new Array(8).fill('25%')
+      } else {
+        tempArr = new Array(8).fill('0')
+        tempArr[3] = '50%'
+        this.left = tempArr
+      }
+      // 计算各页面文字内容位置
+      this.computeTextTop()
+    },
+    next() {
+      if (this.curPage > this.totalPage) {
+        return
+      }
+      let oldPageNumber = JSON.parse(JSON.stringify(this.pageNumber))
+      // 设定临时数组
+      let tempArr = []
+      // 设定页码
+      tempArr = JSON.parse(JSON.stringify(this.pageNumber))
+      if (this.single) {
+        tempArr[1] = tempArr[1] >= this.totalPage ? this.totalPage : tempArr[1] + 1
+      } else {
+        tempArr[1] = tempArr[1] + 1 >= this.totalPage ? tempArr[1] : tempArr[1] + 2
+        tempArr[3] = tempArr[1] + 1
+      }
+      this.pageNumber = tempArr
+      // 设定当前页码
+      if (oldPageNumber[1] + 1 >= this.totalPage) {
+        this.curPage = this.single ? oldPageNumber[1] + 1 : oldPageNumber[1] + 2
+      } else {
+        this.curPage = this.pageNumber[1]
+      }
+      // 计算各页面（纸张）位置
+      if (!this.single && this.curPage > this.totalPage && this.backCover.length) {
+        this.left = new Array(8).fill('25%')
+      } else {
+        tempArr = new Array(8).fill('0')
+        tempArr[3] = '50%'
+        this.left = tempArr
+      }
+      // 计算各页面文字内容位置
+      this.computeTextTop()
+    },
+    // 计算各页面文字内容位置
+    computeTextTop() {
+      const tempArr = JSON.parse(JSON.stringify(this.top))
+      tempArr[1] = - (this.pageNumber[1] - 1) * this.pageHeight  // 单页
+      if (!this.single) { // 双页
+        tempArr[3] = - (this.pageNumber[3] - 1) * this.pageHeight
+      }
+      this.top = tempArr
+    },
+    // 鼠标滚动事件
+    mousewheel(e) {
+      e.wheelDelta > 0 ? this.prev() : this.next()
     }
   }
 }
