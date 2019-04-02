@@ -1,31 +1,38 @@
 <template>
   <div
+    ref="bookContainer"
     tabindex="-1"
-    @keypress.left="prev"
-    @keypress.right="next"
+    @keydown.left="prev"
+    @keydown.right="next"
     @mousewheel.prevent="mousewheel"
-    :style="`'color: ${color}; background: ${background}'; width: ${width}px; height: ${height}px; position: relative;`"
+    v-tap="tap"
+    v-swipeleft="next"
+    v-swiperight="prev"
+    :style="`color: ${color}; width: ${width}px; height: ${height}px; position: relative;`"
     class="tu-book-container">
     <!-- book cover -->
     <div
       v-show="show[0]"
-      :style="`background-color: gray; background-imgage: url(${cover}); background-size: 100% 100%; position: absolute; left: ${left[0]}; top: 0; width: ${pageWidth}; height: 100%; z-index: ${zIndex[0]};`"
+      :style="`background-color: gray; background-image: url(${cover}); background-size: 100% 100%; position: absolute; left: ${left[0]}; top: 0; width: ${pageWidth}; height: 100%; z-index: ${zIndex[0]};`"
       class="tu-book-cover">
-      <p class="tu-book-title">{{ title }}</p>
+      <p
+        v-if="!cover.trim().length"
+        :style="`font-size: ${fontSize * 2}px; font-family: ${fontFamily};`"
+        class="tu-book-title">{{ title }}</p>
     </div>
     <!-- pape -->
     <div
       v-for="item in 6"
       :key="item"
       v-show="show[item]"
-      :style="`background-color: ${background}; color: ${color}; position: absolute; left: ${left[item]}; top: 0; transform: rotateY(${rotate[item] ? '180deg' : ''}); width: ${pageWidth}; height: 100%; padding: ${padding}; font-size: ${fontSize}px; font-family: ${fontFamily}; z-index: ${zIndex[item]};`"
+      :style="`background-color: ${background}; background-image: url(${background}); background-size: 100% 100%; color: ${color}; position: absolute; left: ${left[item]}; top: 0; transform: rotateY(${rotate[item] ? '180deg' : ''}); width: ${pageWidth}; height: 100%; padding: ${padding}; font-size: ${fontSize}px; font-family: ${fontFamily}; z-index: ${zIndex[item]};`"
       :class="`tu-book-page tu-book-page-${item}`">
       <div
         :style="`width: 100%; height: ${pageHeight}px; position: relative;`"
         class="tu-book-content">
         <p
           ref="page"
-          :style="`position: absolute; top: ${top[item]}px; line-height: ${lineHeight}px; width: 100%;`"
+          :style="`position: absolute; top: 0; transform: translateY(${top[item]}px); line-height: ${lineHeight}px; width: 100%;`"
           :class="`tu-book-text tu-book-text-${item}`">{{ text }}</p>
       </div>
       <p
@@ -37,9 +44,12 @@
     <!-- back-cover -->
     <div
       v-show="show[7]"
-      :style="`background-color: gray; background-imgage: url(${backCover}); background-size: 100% 100%; position: absolute; left: ${left[7]}; top: 0; width: ${pageWidth}; height: 100%; transform: rotateY(${rotate[7] ? '180deg' : ''}); z-index: ${zIndex[7]};`"
+      :style="`background-color: gray; background-image: url(${backCover}); background-size: 100% 100%; position: absolute; left: ${left[7]}; top: 0; width: ${pageWidth}; height: 100%; transform: rotateY(${rotate[7] ? '180deg' : ''}); z-index: ${zIndex[7]};`"
       class="tu-book-back-cover">
-      <p class="tu-book-end-title">End</p>
+      <p
+        v-if="!backCover.trim().length"
+        :style="`font-size: ${fontSize * 2}px; font-family: ${fontFamily};`"
+        class="tu-book-end-title">End</p>
     </div>
   </div>
 </template>
@@ -53,6 +63,10 @@ export default {
     text: {
       type: String,
       default: 'this is a book component'
+    },
+    title: {
+      type: String,
+      default: 'Title'
     },
     percent: {
       type: Number,
@@ -86,7 +100,7 @@ export default {
       type: Number,
       default: 16
     },
-    lineHeight: {
+    lineHeight: { // 行高并不能进行准确计算。比如，行高38，一万行，高度却并不一定是38万
       type: Number,
       default: 24
     },
@@ -109,10 +123,6 @@ export default {
     backCover: {
       type: String,
       default: ''
-    },
-    title: {
-      type: String,
-      default: 'Title'
     }
   },
   data() {
@@ -123,7 +133,6 @@ export default {
       top: [0, 0, 0, 0, 0, 0, 0, 0],
       rotate: [false, false, true, false, true, false, true, false],
       pageNumber: [0, 0, 0, 0, 0, 0, 0, 0],
-      showPageNumberArray: [true, true, true, true, true, true, true, true],
       zIndex: [8, 7, 6, 5, 4, 3, 2, 1]
     }
   },
@@ -143,7 +152,7 @@ export default {
       if (this.curPage >= 1) {
         temp[0] = false
       }
-      if (this.curPage > this.totalPage) {
+      if (this.curPage > this.totalPage && this.backCover.length) {
         temp.fill(false)
         temp[7] = true
       }
@@ -177,9 +186,18 @@ export default {
     pageNumberHeight() {
       return this.padding.split(' ')[2]
     },
+    showPageNumberArray() {
+      const temp = new Array(8).fill(true)
+      temp.map((item, index) => {
+        if (this.pageNumber[index] > this.totalPage) {
+          temp[index] = false
+        }
+      })
+      return temp
+    },
     toWatch() {
-      const { text, width, height, single, pagePadding, fontSize, lineHeight, fontFamily, cover, backCover } = this
-      return { text, width, height, single, pagePadding, fontSize, lineHeight, fontFamily, cover, backCover }
+      const { text, width, height, single, pagePadding, fontSize, lineHeight, fontFamily, cover, backCover, percent } = this
+      return { text, width, height, single, pagePadding, fontSize, lineHeight, fontFamily, cover, backCover, percent }
     }
   },
   watch: {
@@ -198,6 +216,10 @@ export default {
         const s = window.getComputedStyle(this.$refs.page[0])
         window.s = s
         const h = s.height.split('px')[0]
+        if (h === 'auto') { // 没有获取到高度
+          this.init()
+          return
+        }
         this.totalPage = Math.ceil(h / this.pageHeight)
         // 计算当前页
         let percent = null
@@ -223,7 +245,8 @@ export default {
         tempArr = JSON.parse(JSON.stringify(this.pageNumber))
         tempArr[1] = this.curPage > this.totalPage ? this.totalPage % 2 === 1 ? this.totalPage : this.totalPage - 1 : this.curPage // 如果单页，只要设置第一个页面就可以
         if (!this.single) { // 如果双页，还需要设置第二张纸的第一页
-          tempArr[3] = tempArr[1] + 1 > this.totalPage ? this.totalPage : tempArr[1] + 1
+          // tempArr[3] = tempArr[1] + 1 > this.totalPage ? this.totalPage : tempArr[1] + 1
+          tempArr[3] = tempArr[1] + 1
         }
         this.pageNumber = tempArr
         // 计算各页面（纸张）位置
@@ -239,6 +262,8 @@ export default {
         }
         // 计算各页面文字内容位置
         this.computeTextTop()
+        // 触发事件
+        this.pageChange()
       })
     },
     prev() {
@@ -251,14 +276,24 @@ export default {
       // 设定页码
       tempArr = JSON.parse(JSON.stringify(this.pageNumber))
       if (this.single) {
-        tempArr[1] = tempArr[1] <= 1 ? 1 : tempArr[1] - 1
+        if (this.curPage > this.totalPage) {  // 从封底开始
+          tempArr[1] = this.totalPage
+        } else {  // 不是从封底开始
+          tempArr[1] = tempArr[1] <= 1 ? 1 : tempArr[1] - 1
+        }
       } else {
-        tempArr[1] = tempArr[1] <= 2 ? 1 : tempArr[1] - 2
+        if (this.curPage > this.totalPage) {
+          tempArr[1] = this.totalPage % 2 === 1 ? this.totalPage : this.totalPage - 1
+        } else {
+          tempArr[1] = tempArr[1] <= 2 ? 1 : tempArr[1] - 2
+        }
         tempArr[3] = tempArr[1] + 1
       }
       this.pageNumber = tempArr
       // 设定当前页码
-      if (oldPageNumber[1] <= 1) {
+      if (this.curPage > this.totalPage) {
+        this.curPage = (this.single || this.totalPage % 2 === 1) ? this.totalPage : this.totalPage - 1
+      } else if (oldPageNumber[1] <= 1) {
         this.curPage = 0
       } else {
         this.curPage = this.pageNumber[1]
@@ -273,6 +308,8 @@ export default {
       }
       // 计算各页面文字内容位置
       this.computeTextTop()
+      // 触发事件
+      this.pageChange()
     },
     next() {
       if (this.curPage > this.totalPage) {
@@ -284,14 +321,24 @@ export default {
       // 设定页码
       tempArr = JSON.parse(JSON.stringify(this.pageNumber))
       if (this.single) {
-        tempArr[1] = tempArr[1] >= this.totalPage ? this.totalPage : tempArr[1] + 1
+        if (this.curPage <= 0) {  // 从封面开始
+          tempArr[1] = 1
+        } else {  // 不是从封面开始
+          tempArr[1] = tempArr[1] >= this.totalPage ? this.totalPage : tempArr[1] + 1
+        }
       } else {
-        tempArr[1] = tempArr[1] + 1 >= this.totalPage ? tempArr[1] : tempArr[1] + 2
+        if (this.curPage <= 0) {  // 从封面开始
+          tempArr[1] = 1
+        } else {  // 不是从封面开始
+          tempArr[1] = tempArr[1] + 1 >= this.totalPage ? tempArr[1] : tempArr[1] + 2
+        }
         tempArr[3] = tempArr[1] + 1
       }
       this.pageNumber = tempArr
       // 设定当前页码
-      if (oldPageNumber[1] + 1 >= this.totalPage) {
+      if (this.curPage <= 0) {  // 从封面开始
+        this.curPage = 1
+      } else if (oldPageNumber[1] + 1 >= this.totalPage) {
         this.curPage = this.single ? oldPageNumber[1] + 1 : oldPageNumber[1] + 2
       } else {
         this.curPage = this.pageNumber[1]
@@ -306,6 +353,18 @@ export default {
       }
       // 计算各页面文字内容位置
       this.computeTextTop()
+      // 触发事件
+      this.pageChange()
+    },
+    // 触摸
+    tap(e) {
+      const rect = this.$refs.bookContainer.getBoundingClientRect()
+      const left = e.changedTouches[0].clientX - rect.left
+      if (left < rect.width / 3) {
+        this.prev()
+      } else if (left > rect.width / 3 * 2) {
+        this.next()
+      }
     },
     // 计算各页面文字内容位置
     computeTextTop() {
@@ -319,6 +378,14 @@ export default {
     // 鼠标滚动事件
     mousewheel(e) {
       e.wheelDelta > 0 ? this.prev() : this.next()
+    },
+    pageChange() {
+      const data = {
+        page: this.curPage,
+        total: this.totalPage,
+        percent: this.curPercent
+      }
+      this.$emit('pageChange', data)
     }
   }
 }

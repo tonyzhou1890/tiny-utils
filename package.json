@@ -21,7 +21,9 @@
     "url": "https://github.com/tonyzhou1890/tiny-utils/issues"
   },
   "homepage": "https://github.com/tonyzhou1890/tiny-utils#readme",
-  "dependencies": {},
+  "dependencies": {
+    "kim-vue-touch": "1.1.4"
+  },
   "devDependencies": {
     "cross-env": "^5.2.0",
     "html-loader": "^0.5.5",

@@ -1,7 +1,7 @@
 # tiny-utils
 
 > tony's utils collection: tiny-utils.js <br>
-> version: 1.0.5
+> version: 1.0.7
 
 &emsp;&emsp;为了以后编程的方便，觉得有必要创建一个工具库，将一些写过（或者看到）的工具收藏起来。对于借鉴过来的方法，具体文件里将有说明。**指令和 UI 部分需要单独引入。详见文档。**
 
@@ -66,3 +66,6 @@ npm install tiny-utils.js -s
 3. 添加 SvgIcon 组件。（组件来自于 vue-element-admin）
 4. 文档放到 docs 下面。
 5. 添加 v-tu-bubble 指令。
+
+### v1.0.7--2019.04.02
+1. 添加 Book 组件（需要依赖 kim-vue-touch）。

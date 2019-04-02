@@ -27,4 +27,10 @@
 
 .tu-book-text {
   margin: 0;
+  white-space: pre-wrap;
+}
+
+.tu-book-title,
+.tu-book-end-title {
+  padding: 10% 25px;
 }

@@ -310,6 +310,36 @@ svg 图标组件。项目需要安装 svgo 和 svg-sprite-loader 包，配置 we
 |icon-class|String|svg 图标名称，不需要后缀|
 |class-name|String|样式类名|
 
+### 2. Book
+
+电子书组件。需要依赖于`kim-vue-touch`包。需要说明的是，这个组件并没有真正解决文本分页问题。此外，这个组件……慎用。并没有进行严格测试，可能有bug。
+
+属性：
+
+|名称|值|说明|
+|-|-|-|
+|text|String|需要显示的文本|
+|title|String|文本标题，显示在封面上，封面配置在下面。|
+|percent|Number|阅读进度。为0时代表在封面，超过100时在封底。|
+|width|Number|电子书宽度，单位为px。|
+|height|Number|电子书高度，宽度为px。|
+|single|Boolean|显示模式，true为单页，false为双页。默认双页。|
+|pagePadding|[Number, Array]|页面padding。数组需要四个值，否则可能与预想的不同。此外，底部padding的值也是页码区域的高度。|
+|showPageNumber|Boolean|是否显示页码。默认显示。|
+|pageSeparator|String|页码分割线。默认：‘ / ’。比如：1 / 2|
+|fontSize|Number|字体大小。单位px。默认16。|
+|lineHeight|Number|行高。单位px。默认24。这个效果比较迷，某些行高会导致页面错位。|
+|color|String|文字颜色。默认‘#333’|
+|background|String|页面背景。默认‘seashell’。可以是css颜色值，也可以是有效的图片路径。|
+|cover|String|封面配置。默认不显示。如果是长度不为零的空字符串，会显示封面和标题，默认背景为灰色。如果是非空字符串（图片路径），标题则不显示，显示指定图片。|
+|backCover|String|封底配置。和封面差不多。|
+
+事件：
+
+|名称|参数|说明|
+|-|-|-|
+|pageChange|(Object)|初始化和页码改变时触发。对象有三个值：page--当前页；total--总页数；percent--进度。|
+
 
 ## directive
 > 指令需要单独引入。
