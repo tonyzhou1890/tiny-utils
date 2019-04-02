@@ -1,7 +1,7 @@
 # tiny-utils
 
 > tony's utils collection: tiny-utils.js <br>
-> version: 1.0.7
+> version: 1.0.8
 
 &emsp;&emsp;为了以后编程的方便，觉得有必要创建一个工具库，将一些写过（或者看到）的工具收藏起来。对于借鉴过来的方法，具体文件里将有说明。**指令和 UI 部分需要单独引入。详见文档。**
 
@@ -69,3 +69,7 @@ npm install tiny-utils.js -s
 
 ### v1.0.7--2019.04.02
 1. 添加 Book 组件（需要依赖 kim-vue-touch）。
+
+### v1.0.8--2019.04.02
+1. 去掉 Book 组件的依赖--kim-vue-touch。
+2. 修复 Book 组件bug：v-show 使元素脱离文档流导致无法获取到文本高度。

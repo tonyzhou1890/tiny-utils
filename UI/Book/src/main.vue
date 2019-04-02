@@ -5,9 +5,8 @@
     @keydown.left="prev"
     @keydown.right="next"
     @mousewheel.prevent="mousewheel"
-    v-tap="tap"
-    v-swipeleft="next"
-    v-swiperight="prev"
+    @touchstart="touch"
+    @touchend="touch"
     :style="`color: ${color}; width: ${width}px; height: ${height}px; position: relative;`"
     class="tu-book-container">
     <!-- book cover -->
@@ -24,9 +23,9 @@
     <div
       v-for="item in 6"
       :key="item"
-      v-show="show[item]"
+      v-show="show[item] || item === 1"
       :style="`background-color: ${background}; background-image: url(${background}); background-size: 100% 100%; color: ${color}; position: absolute; left: ${left[item]}; top: 0; transform: rotateY(${rotate[item] ? '180deg' : ''}); width: ${pageWidth}; height: 100%; padding: ${padding}; font-size: ${fontSize}px; font-family: ${fontFamily}; z-index: ${zIndex[item]};`"
-      :class="`tu-book-page tu-book-page-${item}`">
+      :class="['tu-book-page', `tu-book-page-${item}`, show[item] ? '' : 'tu-book-opacity']">
       <div
         :style="`width: 100%; height: ${pageHeight}px; position: relative;`"
         class="tu-book-content">
@@ -133,7 +132,13 @@ export default {
       top: [0, 0, 0, 0, 0, 0, 0, 0],
       rotate: [false, false, true, false, true, false, true, false],
       pageNumber: [0, 0, 0, 0, 0, 0, 0, 0],
-      zIndex: [8, 7, 6, 5, 4, 3, 2, 1]
+      zIndex: [8, 7, 6, 5, 4, 3, 2, 1],
+      touchData: {
+        start: null,
+        end: null,
+        duration: null,
+        direction: null
+      }
     }
   },
   computed: {
@@ -263,7 +268,7 @@ export default {
         // 计算各页面文字内容位置
         this.computeTextTop()
         // 触发事件
-        this.pageChange()
+        // this.pageChange()
       })
     },
     prev() {
@@ -365,6 +370,40 @@ export default {
       } else if (left > rect.width / 3 * 2) {
         this.next()
       }
+    },
+    // touch 事件
+    touch(e) {
+      if (e.type === 'touchstart') {
+        this.touchData.start = e
+      } else if (e.type === 'touchend') {
+        this.touchData.end = e
+        // 相关计算
+        const X = this.touchData.end.changedTouches[0].clientX - this.touchData.start.changedTouches[0].clientX
+        const Y = this.touchData.end.changedTouches[0].clientY - this.touchData.start.changedTouches[0].clientY
+        if (Math.abs(X) > 10 || Math.abs(Y) > 10) { // 有效滑动
+          if (Math.abs(Y) > Math.abs(X)) {  // 竖直方向不处理
+            this.initTouchData()
+            return
+          }
+          // 水平方向处理
+          if (X < 0) {
+            this.next()
+            this.initTouchData()
+          } else {
+            this.prev()
+            this.initTouchData()
+          }
+        } else if (this.touchData.end.timeStamp - this.touchData.start.timeStamp < 300) { // tap
+          this.tap(e)
+          this.initTouchData()
+        }
+      }
+    },
+    // 初始化touchData
+    initTouchData() {
+      Object.keys(this.touchData).map(item => {
+        this.touchData[item] = null
+      })
     },
     // 计算各页面文字内容位置
     computeTextTop() {
