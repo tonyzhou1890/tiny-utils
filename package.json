@@ -1,6 +1,6 @@
 {
   "name": "tiny-utils.js",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "tony's utils collection: tiny utils",
   "main": "index.js",
   "scripts": {
