@@ -268,7 +268,7 @@ export default {
         // 计算各页面文字内容位置
         this.computeTextTop()
         // 触发事件
-        // this.pageChange()
+        this.pageChange()
       })
     },
     prev() {

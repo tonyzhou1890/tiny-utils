@@ -73,3 +73,6 @@ npm install tiny-utils.js -s
 ### v1.0.8--2019.04.02
 1. 去掉 Book 组件的依赖--kim-vue-touch。
 2. 修复 Book 组件bug：v-show 使元素脱离文档流导致无法获取到文本高度。
+
+### v1.0.9--2019.04.03
+1. 解决 Book 组件初始化不触发 pageChange 事件的问题。
