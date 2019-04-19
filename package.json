@@ -1,7 +1,7 @@
 {
   "name": "tiny-utils.js",
   "version": "1.0.9",
-  "description": "tony's utils collection: tiny utils",
+  "description": "tony's utils collection: tiny-utils.js",
   "main": "index.js",
   "scripts": {
     "test": "cp -rf ../tiny-utils.js ../tiny-utils.js-test/node_modules",

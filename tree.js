@@ -171,7 +171,7 @@ export function setProperty(tree, oldProperty, newProperty, childNodeName, callb
   tree.map(item => {
     item[newProperty] = callback === undefined ? item[oldProperty] : callback(item[oldProperty])
     if (item[childNodeName]) {
-      initTree(item[childNodeName], oldProperty, newProperty, childNodeName, callback)
+      setProperty(item[childNodeName], oldProperty, newProperty, childNodeName, callback)
     }
   })
 }
@@ -280,18 +280,18 @@ export function getLastLevel(tree, childNodeName, key, value) {
   let res = []
   // 确定子节点名称
   let children = childNodeName || 'children'
-  for (let i = 0, len = data.length; i < len; i++) {
-    if (data[i][children]) {
-      res = res.concat(getLastLevel(data[i][children], key, value))
+  for (let i = 0, len = tree.length; i < len; i++) {
+    if (isArray(tree[i][children])) {
+      res = res.concat(getLastLevel(tree[i][children], key, value))
     } else {
       // 键值过滤
       if (key !== undefined && value !== undefined) {
-        if (data[i][key] === value) {
-          res.push(data[i])
+        if (tree[i][key] === value) {
+          res.push(tree[i])
         }
       } else {
         // 不过滤
-        res.push(data[i])
+        res.push(tree[i])
       }
     }
   }

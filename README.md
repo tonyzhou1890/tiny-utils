@@ -76,3 +76,10 @@ npm install tiny-utils.js -s
 
 ### v1.0.9--2019.04.03
 1. 解决 Book 组件初始化不触发 pageChange 事件的问题。
+
+### v1.0.10
+1. 解决 Book 组件初始化时进度100%双页显示不正常的问题。
+2. 解决 tree.getLastLevel 方法 data 未定义的问题。
+3. tree.getLastLevel 在进入递归前先进行数组检查，避免抛出错误。
+4. 解决 tree.setProperty 递归调用错误的问题。
+5. 将 JSON 的深度拷贝换成 lodash 的拷贝函数（待做）。
