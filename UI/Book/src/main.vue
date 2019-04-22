@@ -31,7 +31,7 @@
         class="tu-book-content">
         <p
           ref="page"
-          :style="`position: absolute; top: 0; transform: translateY(${top[item]}px); line-height: ${lineHeight}px; width: 100%;`"
+          :style="`position: absolute; top: 0; transform: translateY(${top[item]}px) translateZ(0); line-height: ${lineHeight}px; width: 100%;`"
           :class="`tu-book-text tu-book-text-${item}`">{{ text }}</p>
       </div>
       <p
@@ -239,6 +239,9 @@ export default {
           this.curPage = 1
         } else {
           let tempCurPage = Math.floor(percent / 100 * this.totalPage)
+          if (percent > 100) {
+            tempCurPage = this.totalPage + 1
+          }
           if (tempCurPage === 0) {
             tempCurPage = 1
           }
@@ -258,7 +261,7 @@ export default {
         tempArr = JSON.parse(JSON.stringify(this.left))
         if (this.single) {  // 单页
           this.left = tempArr.fill('0')
-        } else if (this.curPage === 0 || this.curPage > this.totalPage) { // 双页，并且进度为0或100
+        } else if (this.curPage === 0 || (this.curPage > this.totalPage && this.backCover.length)) { // 双页，并且进度为0或100
           this.left = tempArr.fill('25%')
         } else {  // 双页，并且进度不为0和100
           tempArr[0] = tempArr[1] = '0'
