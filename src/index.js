@@ -6,8 +6,6 @@ import functions from './functions'
 import date from './date'
 import validate from './validate'
 import tree from './tree'
-import UI from './UI.js'
-import './directive'
 
 /**
  * 全部导出
@@ -20,6 +18,5 @@ export default {
   functions,
   date,
   validate,
-  tree,
-  UI
+  tree
 }
