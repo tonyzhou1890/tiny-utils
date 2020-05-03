@@ -1,8 +1,9 @@
 {
   "name": "tiny-utils.js",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "tony's utils collection: tiny-utils.js",
-  "main": "lib/index.min.js",
+  "module": "es/index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tonyzhou1890/tiny-utils.git"
@@ -18,17 +19,27 @@
   },
   "homepage": "https://github.com/tonyzhou1890/tiny-utils#readme",
   "scripts": {
-    "build": "rollup -c build/rollup.config.js"
+    "start": "cross-env NODE_ENV=development rollup -w -c ./build/rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c ./build/rollup.config.js"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-runtime": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
-    "@babel/register": "^7.9.0",
-    "rollup": "2.0.0",
-    "rollup-plugin-babel": "^4.4.0",
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^7.0.2",
+    "rollup": "^1.21.4",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-uglify": "^6.0.4"
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-uglify": "^6.0.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.6.0",
+    "@babel/runtime-corejs2": "^7.6.0",
+    "lodash": "^4.17.15"
   }
 }

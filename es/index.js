@@ -1,14 +1,10 @@
-'use strict';
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var _Object$keys = _interopDefault(require('@babel/runtime-corejs2/core-js/object/keys'));
-var _Object$assign = _interopDefault(require('@babel/runtime-corejs2/core-js/object/assign'));
-var _JSON$stringify = _interopDefault(require('@babel/runtime-corejs2/core-js/json/stringify'));
-var _parseInt = _interopDefault(require('@babel/runtime-corejs2/core-js/parse-int'));
-var _typeof = _interopDefault(require('@babel/runtime-corejs2/helpers/typeof'));
-var _Set = _interopDefault(require('@babel/runtime-corejs2/core-js/set'));
-var _Array$from = _interopDefault(require('@babel/runtime-corejs2/core-js/array/from'));
+import _Object$keys from '@babel/runtime-corejs2/core-js/object/keys';
+import _Object$assign from '@babel/runtime-corejs2/core-js/object/assign';
+import _JSON$stringify from '@babel/runtime-corejs2/core-js/json/stringify';
+import _parseInt from '@babel/runtime-corejs2/core-js/parse-int';
+import _typeof from '@babel/runtime-corejs2/helpers/typeof';
+import _Set from '@babel/runtime-corejs2/core-js/set';
+import _Array$from from '@babel/runtime-corejs2/core-js/array/from';
 
 /**
  * 定义一个 Object.prototype.toString 的简写
@@ -881,4 +877,4 @@ var index = {
   tree: tree
 };
 
-module.exports = index;
+export default index;
