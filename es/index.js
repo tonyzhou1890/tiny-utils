@@ -1,6 +1,6 @@
 import _Object$keys from '@babel/runtime-corejs2/core-js/object/keys';
 import _Object$assign from '@babel/runtime-corejs2/core-js/object/assign';
-import _JSON$stringify from '@babel/runtime-corejs2/core-js/json/stringify';
+import _clone from 'lodash/cloneDeep';
 import _parseInt from '@babel/runtime-corejs2/core-js/parse-int';
 import _typeof from '@babel/runtime-corejs2/helpers/typeof';
 import _Set from '@babel/runtime-corejs2/core-js/set';
@@ -198,7 +198,7 @@ function filterProperties(source, reserveProperties) {
   return dest; // 过滤函数
 
   function filter(source, reserveProperties) {
-    source = JSON.parse(_JSON$stringify(source));
+    source = _clone(source);
     var dest; // 源是否为数组
 
     if (isArray(source)) {
@@ -247,7 +247,7 @@ function transferProperties(source, transferProperties) {
   return dest; // 转换函数
 
   function transfer(source, transferProperties) {
-    source = JSON.parse(_JSON$stringify(source));
+    source = _clone(source);
     var dest; // 源是否为数组
 
     if (isArray(source)) {
@@ -794,7 +794,8 @@ function deleteEmptyChildNode(tree, childNodeName) {
     throw new Error('树数据不是数组');
   }
 
-  var temp = JSON.parse(_JSON$stringify(tree));
+  var temp = _clone(tree);
+
   deleteEmpty(temp, childNodeName);
   return temp; // 删除空子节点
 
@@ -829,7 +830,7 @@ function getLastLevel(tree, childNodeName, key, value) {
 
   for (var i = 0, len = tree.length; i < len; i++) {
     if (isArray(tree[i][children])) {
-      res = res.concat(getLastLevel(tree[i][children], key, value));
+      res = res.concat(getLastLevel(tree[i][children], childNodeName, key, value));
     } else {
       // 键值过滤
       if (key !== undefined && value !== undefined) {

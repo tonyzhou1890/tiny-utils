@@ -1,4 +1,6 @@
 import { isArray } from './base'
+import _clone from 'lodash/cloneDeep'
+
 /**
  * 父子联动情况下的选择
  * 响应点击复选框行为
@@ -248,7 +250,7 @@ export function deleteEmptyChildNode(tree, childNodeName) {
   if (!isArray(tree)) {
     throw new Error('树数据不是数组')
   }
-  const temp = JSON.parse(JSON.stringify(tree))
+  const temp = _clone(tree)
   deleteEmpty(temp, childNodeName)
   return temp
 
@@ -282,7 +284,7 @@ export function getLastLevel(tree, childNodeName, key, value) {
   let children = childNodeName || 'children'
   for (let i = 0, len = tree.length; i < len; i++) {
     if (isArray(tree[i][children])) {
-      res = res.concat(getLastLevel(tree[i][children], key, value))
+      res = res.concat(getLastLevel(tree[i][children], childNodeName, key, value))
     } else {
       // 键值过滤
       if (key !== undefined && value !== undefined) {

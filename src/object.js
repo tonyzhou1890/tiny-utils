@@ -1,4 +1,5 @@
 import { isObject, isArray, isFunction } from './base'
+import _clone from 'lodash/cloneDeep'
 
 /**
  * 对对象/数组进行过滤，提取需要的属性
@@ -20,7 +21,7 @@ export function filterProperties(source, reserveProperties) {
 
   // 过滤函数
   function filter(source, reserveProperties) {
-    source = JSON.parse(JSON.stringify(source))
+    source = _clone(source)
     let dest
     // 源是否为数组
     if (isArray(source)) {
@@ -66,7 +67,7 @@ export function transferProperties(source, transferProperties) {
 
   // 转换函数
   function transfer(source, transferProperties) {
-    source = JSON.parse(JSON.stringify(source))
+    source = _clone(source)
     let dest
     // 源是否为数组
     if (isArray(source)) {
