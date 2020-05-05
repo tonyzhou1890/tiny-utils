@@ -1,0 +1,14 @@
+{
+  "plugins": ["node_modules/jsdoc-babel"],
+  "source": {
+    "include": ["src"],
+    "exclude": [],
+    "includePattern": ".+\\.js(doc)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "opts": {
+    "encoding": "utf8",
+    "destination": "./docs/",
+    "recurse": true
+  }
+}

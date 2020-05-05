@@ -20,7 +20,8 @@
   "homepage": "https://github.com/tonyzhou1890/tiny-utils#readme",
   "scripts": {
     "start": "cross-env NODE_ENV=development rollup -w -c ./build/rollup.config.js",
-    "build": "cross-env NODE_ENV=production rollup -c ./build/rollup.config.js"
+    "build": "cross-env NODE_ENV=production rollup -c ./build/rollup.config.js",
+    "docs": "jsdoc -c jsdoc.json"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
@@ -28,6 +29,8 @@
     "@babel/preset-env": "^7.6.0",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
+    "jsdoc": "^3.6.4",
+    "jsdoc-babel": "^0.5.0",
     "rollup": "^1.21.4",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
