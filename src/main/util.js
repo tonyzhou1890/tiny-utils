@@ -1,10 +1,10 @@
 /**
  * 基本方法--实际上是不好归类的方法
- * @module error
+ * @module util
  */
 /**
  * 报错
- * @memberOf module:error
+ * @memberOf module:util
  */
 export function error(msg) {
   throw new Error(msg || '出错了')

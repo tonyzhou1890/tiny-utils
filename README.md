@@ -15,4 +15,4 @@ npm install tiny-utils.js -s
 
 > 文档是通过`jsdoc`生成的
 
-[tiny-utils.js 文档](./docs)
+[tiny-utils.js 文档](https://tonyzhou1890.github.io/tiny-utils.js/)

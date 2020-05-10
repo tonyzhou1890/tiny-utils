@@ -10,8 +10,9 @@
  * @param {string} textval 
  */
 export function validateURL(textval) {
-  const urlregex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|top|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
-  return urlregex.test(textval)
+  // const reg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|top|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+  const reg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/
+  return reg.test(textval)
 }
 
 /**
@@ -86,22 +87,33 @@ export function validateNegativeInteger(str) {
 }
 
 /**
- * 非负整数
- * @memberOf module:validate
- * @param {string} str 
- */
-export function validateNotPositiveInteger(str) {
-  const reg = /^[1-9]\d*|0$/
-  return reg.test(str)
-}
-
-/**
  * 非正整数
  * @memberOf module:validate
  * @param {string} str 
  */
+export function validateNotPositiveInteger(str) {
+  const reg = /^(-[1-9]\d*|0)$/
+  return reg.test(str)
+}
+
+/**
+ * 非负整数
+ * @memberOf module:validate
+ * @param {string} str 
+ */
 export function validateNotNegativeInteger(str) {
-  const reg = /^-[1-9]\d*|0$/
+  const reg = /^([1-9]\d*|0)$/
+  return reg.test(str)
+}
+
+/**
+ * 正浮点数验证（不超过n位小数--默认2）
+ * @memberOf module:validate
+ * @param {string} str 
+ * @param {number} n 
+ */
+export function validateFloatZ(str, n) {
+  const reg = new RegExp(`^([1-9][\\d]{0,7}|0)(\\.[\\d]{1,${n || 2}})?$`)
   return reg.test(str)
 }
 
@@ -165,17 +177,6 @@ export function validateDate(str) {
 }
 
 /**
- * 正浮点数验证（不超过n位小数--默认2）
- * @memberOf module:validate
- * @param {string} str 
- * @param {number} n 
- */
-export function validateFloatZ(str, n) {
-  const reg = new RegExp(`/^([1-9][\\d]{0,7}|0)(\\.[\\d]{1,${n || 2}})?$/`)
-  return reg.test(str)
-}
-
-/**
  * 全部导出
  */
 export default {
@@ -189,11 +190,11 @@ export default {
   negativeInteger: validateNegativeInteger,
   notPositiveInteger: validateNotPositiveInteger,
   notNegativeInteger: validateNotNegativeInteger,
+  floatZ: validateFloatZ,
   pwd: validatePwd,
   notEmpty: validateNotEmpty,
   phone: validatePhone,
   longitude: validateLongitude,
   latitude: validateLatitude,
   date: validateDate,
-  floatZ: validateFloatZ
 }

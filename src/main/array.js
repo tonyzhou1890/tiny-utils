@@ -7,7 +7,7 @@ import isUndefined from 'lodash/isUndefined'
 import isNull from 'lodash/isNull'
 import isNumber from 'lodash/isNumber'
 import isFunction from 'lodash/isFunction'
-import { error } from './base'
+import { error } from './util'
 
 /**
  * 填充数组--返回值是原数组

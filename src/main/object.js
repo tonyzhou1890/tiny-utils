@@ -7,7 +7,7 @@ import isObject from 'lodash/isObject'
 import isFunction from 'lodash/isFunction'
 import isUndefined from 'lodash/isUndefined'
 import cloneDeep from 'lodash/cloneDeep'
-import { error } from './base'
+import { error } from './util'
 
 /**
  * 对对象/数组进行过滤，提取需要的属性
@@ -37,6 +37,8 @@ export function filterProperties(source, props) {
         // 如果元素是数组或对象，继续遍历
         if (isArray(source[i]) || isObject(source[i])) {
           dest[i] = _(source[i], props)
+        } else { // 否则保留元素
+          dest[i] = source[i]
         }
       }
     } else if (isObject(source)) { // 源是否为对象
@@ -84,6 +86,8 @@ export function transferProperties(source, props) {
         // 如果元素是数组或对象，继续遍历
         if (isArray(source[i]) || isObject(source[i])) {
           dest[i] = _(source[i], props)
+        } else { // 否则保留元素
+          dest[i] = source[i]
         }
       }
     } else if (isObject(source)) { // 源是否为对象

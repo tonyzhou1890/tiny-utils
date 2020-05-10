@@ -7,16 +7,16 @@ import isString from 'lodash/isString'
 import isFunction from 'lodash/isFunction'
 import cloneDeep from 'lodash/cloneDeep'
 import uniq from 'lodash/uniq'
-import { error } from './base'
+import { error } from './util'
 import { validateNotEmpty } from './validate'
 
 /**
  * 对树进行查找，找到则返回节点数组，否则返回空数组。
  * @memberOf module:tree
  * @param {Array} tree：树
- * @param {string} key: 查找键名
- * @param {primitive} value: 查找键值--只支持基本值
- * @param {string} childNodeName: 子节点名称
+ * @param {string} key: 查找键名，不包括 undefined、null、''
+ * @param {primitive} value: 查找键值--只支持基本值，不包括 undefined、null、''
+ * @param {string} childNodeName: 子节点名称，可选
  * @param {Boolean} deep: 是否深度查找--默认不深度查找。不深度查找的话，找到第一个即返回结果数组
  * @returns {Array} 结果数组，没找到为空数组
  */
@@ -31,7 +31,7 @@ export function findNode(tree, key, value, childNodeName, deep) {
 
   let res = []
   let item = null
-  for (let i = 0, len = tree.lengt; i < len; i++) {
+  for (let i = 0, len = tree.length; i < len; i++) {
     item = tree[i]
     // 检查是否满足条件
     if (item[key] === value) {
@@ -52,9 +52,9 @@ export function findNode(tree, key, value, childNodeName, deep) {
  * 根据指定属性给树添加属性--改变原数据
  * @memberOf module:tree
  * @param {Array} tree // 树
- * @param {string} oldProperty // 旧属性
- * @param {string} newProperty // 新属性
- * @param {string} childNodeName // 子节点名称
+ * @param {string} oldProperty // 旧属性，不包括 undefined、null、''
+ * @param {string} newProperty // 新属性，不包括 undefined、null、''
+ * @param {string} childNodeName // 子节点名称，可选
  * @param {Function} callback // 可选参数，转变过程中的回调函数，参数是旧值和节点，返回值是新值
  * @returns {Array} 修改后的原数据
  */
@@ -62,8 +62,8 @@ export function setProperty(tree, oldProperty, newProperty, childNodeName, callb
   if (!isArray(tree)) {
     error('函数 setProperty 树数据需要是数组')
   }
-  // 如果键名为空，直接返回空数组
-  if (!validateNotEmpty(oldProperty) || !validateNotEmpty(newProperty)) return []
+  // 如果键名为空，直接返回原数组
+  if (!validateNotEmpty(oldProperty) || !validateNotEmpty(newProperty)) return tree
   
   childNodeName = isString(childNodeName) ? childNodeName : 'children'
 
@@ -84,17 +84,17 @@ export function setProperty(tree, oldProperty, newProperty, childNodeName, callb
  * 给树中的节点添加需要的父属性--改变原数据
  * @memberOf module:tree
  * @param {Array} tree // 树
- * @param {string} parentProperty // 父节点属性名称
- * @param {string} childProperty // 需要添加的子节点属性名称
- * @param {string} childNodeName // 子节点名称
+ * @param {string} parentProperty // 父节点属性名称，不包括 undefined、null、''
+ * @param {string} childProperty // 需要添加的子节点属性名称，不包括 undefined、null、''
+ * @param {string} childNodeName // 子节点名称，可选
  * @returns {Array} 修改后的原数据
  */
 export function setPropertyFromParent(tree, parentProperty, childProperty, childNodeName) {
   if (!isArray(tree)) {
     error('函数 setPropertyFromParent 树数据需要是数组')
   }
-  // 如果键名为空，直接返回空数组
-  if (!validateNotEmpty(parentProperty) || !validateNotEmpty(childProperty)) return []
+  // 如果键名为空，直接返回原数组
+  if (!validateNotEmpty(parentProperty) || !validateNotEmpty(childProperty)) return tree
   
   childNodeName = isString(childNodeName) ? childNodeName : 'children'
 
@@ -181,13 +181,12 @@ export function deleteEmptyChildNode(tree, childNodeName) {
 
   // 删除空子节点
   function _(tree) {
-    let item = null
     for (let i = 0, len = tree.length; i < len; i++) {
-      if (isArray(item[childNodeName])) {
-        if (item[childNodeName].length === 0) {
-          delete item[childNodeName]
+      if (isArray(tree[i][childNodeName])) {
+        if (tree[i][childNodeName].length === 0) {
+          delete tree[i][childNodeName]
         } else {
-          _(item[childNodeName])
+          _(tree[i][childNodeName])
         }
       }
     }
@@ -199,8 +198,8 @@ export function deleteEmptyChildNode(tree, childNodeName) {
  * @memberOf module:tree
  * @param {Array} tree // 树
  * @param {string} childNodeName // 子节点名称，可选，默认 ‘children’
- * @param {string} key // 筛选键名，可选
- * @param {primitive} value // 筛选键值，可选
+ * @param {string} key // 筛选键名，可选，不包括 undefined、null、''
+ * @param {primitive} value // 筛选键值，可选，不包括 undefined、null、''
  * @returns {Array} 节点数组
  */
 export function getLastLevel(tree, childNodeName, key, value) {

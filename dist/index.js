@@ -329,18 +329,18 @@
 
   /**
    * 基本方法--实际上是不好归类的方法
-   * @module error
+   * @module util
    */
 
   /**
    * 报错
-   * @memberOf module:error
+   * @memberOf module:util
    */
   function error(msg) {
     throw new Error(msg || '出错了');
   } // 导出全部
 
-  var base = {
+  var util = {
     error: error
   };
 
@@ -415,6 +415,41 @@
   var array = {
     fill: fill,
     sort: sort
+  };
+
+  /**
+   * 数学相关方法
+   * @module math
+   */
+  /**
+   * 种子随机数
+   * @memberOf module:math
+   * @param {number} seed 
+   * @param {number} max 
+   * @param {number} min 
+   */
+
+  function seedRandom(seed, max, min) {
+    var rnd = null;
+    max = isNumber_1(max) ? max : 1;
+    min = isNumber_1(min) ? min : 0; // 如果有传入种子，按照种子计算
+
+    if (isNumber_1(seed)) {
+      seed = (seed * 9301 + 49297) % 233280;
+      rnd = seed / 233280.0;
+    } else {
+      // 否则调用原生随机数方法--不使用时间戳是因为 1ms 内计算出的随机数都是一样的
+      rnd = Math.random();
+    }
+
+    return min + rnd * (max - min);
+  }
+  /**
+   * 导出全部
+   */
+
+  var math = {
+    seedRandom: seedRandom
   };
 
   var _global = createCommonjsModule(function (module) {
@@ -600,39 +635,6 @@
   $export.U = 64;  // safe
   $export.R = 128; // real proto method for `library`
   var _export = $export;
-
-  // 20.3.3.1 / 15.9.4.4 Date.now()
-
-
-  _export(_export.S, 'Date', { now: function () { return new Date().getTime(); } });
-
-  var now = _core.Date.now;
-
-  var now$1 = now;
-
-  /**
-   * 种子随机数
-   * @memberOf module:math
-   * @param {number} seed 
-   * @param {number} max 
-   * @param {number} min 
-   */
-
-  function seedRandom(seed, max, min) {
-    seed = isNumber_1(seed) ? seed : now$1();
-    max = isNumber_1(max) ? max : 1;
-    min = isNumber_1(min) ? min : 0;
-    seed = (seed * 9301 + 49297) % 233280;
-    var rnd = seed / 233280.0;
-    return min + rnd * (max - min);
-  }
-  /**
-   * 导出全部
-   */
-
-  var math = {
-    seedRandom: seedRandom
-  };
 
   var toString = {}.toString;
 
@@ -3127,6 +3129,9 @@
           // 如果元素是数组或对象，继续遍历
           if (isArray_1(source[i]) || isObject_1(source[i])) {
             dest[i] = _(source[i], props);
+          } else {
+            // 否则保留元素
+            dest[i] = source[i];
           }
         }
       } else if (isObject_1(source)) {
@@ -3177,6 +3182,9 @@
           // 如果元素是数组或对象，继续遍历
           if (isArray_1(source[i]) || isObject_1(source[i])) {
             dest[i] = _(source[i], props);
+          } else {
+            // 否则保留元素
+            dest[i] = source[i];
           }
         }
       } else if (isObject_1(source)) {
@@ -3304,8 +3312,8 @@
 
   function uuid(len, radix) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-    var uuid = [],
-        i;
+    var uuid = [];
+    var i;
     radix = radix || chars.length;
 
     if (len) {
@@ -3686,8 +3694,9 @@
    * @param {string} textval 
    */
   function validateURL(textval) {
-    var urlregex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|top|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
-    return urlregex.test(textval);
+    // const reg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|top|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+    var reg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/;
+    return reg.test(textval);
   }
   /**
    * 小写字母
@@ -3761,23 +3770,34 @@
     return reg.test(str);
   }
   /**
-   * 非负整数
-   * @memberOf module:validate
-   * @param {string} str 
-   */
-
-  function validateNotPositiveInteger(str) {
-    var reg = /^[1-9]\d*|0$/;
-    return reg.test(str);
-  }
-  /**
    * 非正整数
    * @memberOf module:validate
    * @param {string} str 
    */
 
+  function validateNotPositiveInteger(str) {
+    var reg = /^(-[1-9]\d*|0)$/;
+    return reg.test(str);
+  }
+  /**
+   * 非负整数
+   * @memberOf module:validate
+   * @param {string} str 
+   */
+
   function validateNotNegativeInteger(str) {
-    var reg = /^-[1-9]\d*|0$/;
+    var reg = /^([1-9]\d*|0)$/;
+    return reg.test(str);
+  }
+  /**
+   * 正浮点数验证（不超过n位小数--默认2）
+   * @memberOf module:validate
+   * @param {string} str 
+   * @param {number} n 
+   */
+
+  function validateFloatZ(str, n) {
+    var reg = new RegExp("^([1-9][\\d]{0,7}|0)(\\.[\\d]{1,".concat(n || 2, "})?$"));
     return reg.test(str);
   }
   /**
@@ -3840,17 +3860,6 @@
     return reg.test(str);
   }
   /**
-   * 正浮点数验证（不超过n位小数--默认2）
-   * @memberOf module:validate
-   * @param {string} str 
-   * @param {number} n 
-   */
-
-  function validateFloatZ(str, n) {
-    var reg = new RegExp("/^([1-9][\\d]{0,7}|0)(\\.[\\d]{1,".concat(n || 2, "})?$/"));
-    return reg.test(str);
-  }
-  /**
    * 全部导出
    */
 
@@ -3865,13 +3874,13 @@
     negativeInteger: validateNegativeInteger,
     notPositiveInteger: validateNotPositiveInteger,
     notNegativeInteger: validateNotNegativeInteger,
+    floatZ: validateFloatZ,
     pwd: validatePwd,
     notEmpty: validateNotEmpty,
     phone: validatePhone,
     longitude: validateLongitude,
     latitude: validateLatitude,
-    date: validateDate,
-    floatZ: validateFloatZ
+    date: validateDate
   };
 
   /**
@@ -3882,9 +3891,9 @@
    * 对树进行查找，找到则返回节点数组，否则返回空数组。
    * @memberOf module:tree
    * @param {Array} tree：树
-   * @param {string} key: 查找键名
-   * @param {primitive} value: 查找键值--只支持基本值
-   * @param {string} childNodeName: 子节点名称
+   * @param {string} key: 查找键名，不包括 undefined、null、''
+   * @param {primitive} value: 查找键值--只支持基本值，不包括 undefined、null、''
+   * @param {string} childNodeName: 子节点名称，可选
    * @param {Boolean} deep: 是否深度查找--默认不深度查找。不深度查找的话，找到第一个即返回结果数组
    * @returns {Array} 结果数组，没找到为空数组
    */
@@ -3900,7 +3909,7 @@
     var res = [];
     var item = null;
 
-    for (var i = 0, len = tree.lengt; i < len; i++) {
+    for (var i = 0, len = tree.length; i < len; i++) {
       item = tree[i]; // 检查是否满足条件
 
       if (item[key] === value) {
@@ -3921,9 +3930,9 @@
    * 根据指定属性给树添加属性--改变原数据
    * @memberOf module:tree
    * @param {Array} tree // 树
-   * @param {string} oldProperty // 旧属性
-   * @param {string} newProperty // 新属性
-   * @param {string} childNodeName // 子节点名称
+   * @param {string} oldProperty // 旧属性，不包括 undefined、null、''
+   * @param {string} newProperty // 新属性，不包括 undefined、null、''
+   * @param {string} childNodeName // 子节点名称，可选
    * @param {Function} callback // 可选参数，转变过程中的回调函数，参数是旧值和节点，返回值是新值
    * @returns {Array} 修改后的原数据
    */
@@ -3931,10 +3940,10 @@
   function setProperty(tree, oldProperty, newProperty, childNodeName, callback) {
     if (!isArray_1(tree)) {
       error('函数 setProperty 树数据需要是数组');
-    } // 如果键名为空，直接返回空数组
+    } // 如果键名为空，直接返回原数组
 
 
-    if (!validateNotEmpty(oldProperty) || !validateNotEmpty(newProperty)) return [];
+    if (!validateNotEmpty(oldProperty) || !validateNotEmpty(newProperty)) return tree;
     childNodeName = isString_1(childNodeName) ? childNodeName : 'children';
     var item = null;
 
@@ -3953,19 +3962,19 @@
    * 给树中的节点添加需要的父属性--改变原数据
    * @memberOf module:tree
    * @param {Array} tree // 树
-   * @param {string} parentProperty // 父节点属性名称
-   * @param {string} childProperty // 需要添加的子节点属性名称
-   * @param {string} childNodeName // 子节点名称
+   * @param {string} parentProperty // 父节点属性名称，不包括 undefined、null、''
+   * @param {string} childProperty // 需要添加的子节点属性名称，不包括 undefined、null、''
+   * @param {string} childNodeName // 子节点名称，可选
    * @returns {Array} 修改后的原数据
    */
 
   function setPropertyFromParent(tree, parentProperty, childProperty, childNodeName) {
     if (!isArray_1(tree)) {
       error('函数 setPropertyFromParent 树数据需要是数组');
-    } // 如果键名为空，直接返回空数组
+    } // 如果键名为空，直接返回原数组
 
 
-    if (!validateNotEmpty(parentProperty) || !validateNotEmpty(childProperty)) return [];
+    if (!validateNotEmpty(parentProperty) || !validateNotEmpty(childProperty)) return tree;
     childNodeName = isString_1(childNodeName) ? childNodeName : 'children';
 
     _(tree, null);
@@ -4059,14 +4068,12 @@
     return temp; // 删除空子节点
 
     function _(tree) {
-      var item = null;
-
       for (var i = 0, len = tree.length; i < len; i++) {
-        if (isArray_1(item[childNodeName])) {
-          if (item[childNodeName].length === 0) {
-            delete item[childNodeName];
+        if (isArray_1(tree[i][childNodeName])) {
+          if (tree[i][childNodeName].length === 0) {
+            delete tree[i][childNodeName];
           } else {
-            _(item[childNodeName]);
+            _(tree[i][childNodeName]);
           }
         }
       }
@@ -4077,8 +4084,8 @@
    * @memberOf module:tree
    * @param {Array} tree // 树
    * @param {string} childNodeName // 子节点名称，可选，默认 ‘children’
-   * @param {string} key // 筛选键名，可选
-   * @param {primitive} value // 筛选键值，可选
+   * @param {string} key // 筛选键名，可选，不包括 undefined、null、''
+   * @param {primitive} value // 筛选键值，可选，不包括 undefined、null、''
    * @returns {Array} 节点数组
    */
 
@@ -4128,12 +4135,19 @@
    * @file 入口文件
    */
   /**
+   * 版本
+   * @member
+   */
+
+  var version = '1.1.0';
+  /**
    * 全部导出
    */
 
   var index = {
+    version: version,
     array: array,
-    base: base,
+    util: util,
     math: math,
     object: object,
     string: string,
