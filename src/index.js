@@ -9,6 +9,7 @@ import object from './main/object'
 import string from './main/string'
 import tree from './main/tree'
 import validate from './main/validate'
+import color from './main/color'
 
 /**
  * 版本
@@ -27,5 +28,6 @@ export default {
   object,
   string,
   tree,
-  validate
+  validate,
+  color
 }
