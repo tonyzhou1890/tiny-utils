@@ -15,7 +15,7 @@ import color from './main/color'
  * 版本
  * @member
  */
-const version = '1.1.0'
+const version = '2.0.0'
 
 /**
  * 全部导出

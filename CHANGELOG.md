@@ -1,5 +1,5 @@
 # 更新日志
-## v1.1.0--2020.05.05
+## v2.0.0--2020.05.05
 1. 采用`rollup`打包
 2. 类型判断引用`lodash`里的方法
 3. 删除/修改部分方法，增加`string.uuid`、`array.sort`、`math.seedRandom`等方法

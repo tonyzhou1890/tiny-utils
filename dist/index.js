@@ -4430,7 +4430,7 @@
   }
   /**
    * 颜色解析--将颜色字符串解析为 rgba 数组
-   * @param {string} colorStr 颜色字符串--red/blue之类的，或者 #123/#abc123之类的，又或者(12, 12, 12)/(12, 12, 12, 1)之类的
+   * @param {string} colorStr 颜色字符串--red/blue之类的，或者 #123/#abc123之类的，又或者rgb(12, 12, 12)/rgba(12, 12, 12, 1)/hsl(1, 1, 1)/hsla(1, 1, 1, 1)之类的
    * @param {Array.<number>} rgbaArr 输出rgba数组：可选--改变原值
    * @return {Array.<number>} rgba数组
    * @memberOf module:color
@@ -4810,7 +4810,7 @@
    * @member
    */
 
-  var version = '1.1.0';
+  var version = '2.0.0';
   /**
    * 全部导出
    */
