@@ -1,6 +1,6 @@
 {
   "name": "tiny-utils.js",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "description": "tony's utils collection: tiny-utils.js",
   "module": "es/index.js",
   "main": "lib/index.js",
